@@ -30,9 +30,9 @@ class CalculatorProvider with ChangeNotifier {
 
   void calculateResult() {
     try {
-      String expression = _displayValue.split('\n')[0]; // Get only the first line
+      String expression = _displayValue.split('\n')[0];
       double result = _evaluateExpression(expression);
-      _displayValue = "$expression\n$result"; // Display equation and result in separate lines
+      _displayValue = "$expression\n$result";
     } catch (e) {
       _displayValue = "Error";
     }
@@ -40,14 +40,13 @@ class CalculatorProvider with ChangeNotifier {
   }
 
   double _evaluateExpression(String expression) {
-    // Replace mathematical symbols for calculation
+
     expression = expression.replaceAll("×", "*").replaceAll("÷", "/");
 
     try {
-      // Split the expression into numbers and operators
+
       List<String> tokens = _tokenizeExpression(expression);
 
-      // Perform calculation with proper order of operations (multiplication and division first)
       return _parseExpression(tokens);
     } catch (e) {
       throw FormatException("Invalid expression");
@@ -55,13 +54,10 @@ class CalculatorProvider with ChangeNotifier {
   }
 
   double _parseExpression(List<String> tokens) {
-    // Handle multiplication/division
     tokens = _processMultiplicationDivision(tokens);
 
-    // Handle addition/subtraction
     tokens = _processAdditionSubtraction(tokens);
 
-    // The remaining token should be the result
     return double.parse(tokens[0]);
   }
 
@@ -78,7 +74,6 @@ class CalculatorProvider with ChangeNotifier {
         double right = double.parse(tokens[i + 1]);
         double result;
 
-        // Apply multiplication or division
         if (tokens[i] == '*' || tokens[i] == '×') {
           result = left * right;
         } else if (tokens[i] == '/' || tokens[i] == '÷') {
@@ -90,11 +85,10 @@ class CalculatorProvider with ChangeNotifier {
           throw FormatException("Invalid operator");
         }
 
-        // Replace the operator and operands with the result
         tokens[i - 1] = result.toString();
         tokens.removeAt(i);
-        tokens.removeAt(i); // Remove the next operand
-        i--; // Step back to re-check the previous token in the next iteration
+        tokens.removeAt(i);
+        i--;
       }
       i++;
     }
@@ -109,7 +103,6 @@ class CalculatorProvider with ChangeNotifier {
         double right = double.parse(tokens[i + 1]);
         double result;
 
-        // Apply addition or subtraction
         if (tokens[i] == '+') {
           result = left + right;
         } else if (tokens[i] == '-') {
@@ -118,11 +111,10 @@ class CalculatorProvider with ChangeNotifier {
           throw FormatException("Invalid operator");
         }
 
-        // Replace the operator and operands with the result
         tokens[i - 1] = result.toString();
         tokens.removeAt(i);
-        tokens.removeAt(i); // Remove the next operand
-        i--; // Step back to re-check the previous token in the next iteration
+        tokens.removeAt(i);
+        i--;
       }
       i++;
     }

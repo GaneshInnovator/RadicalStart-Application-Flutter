@@ -29,7 +29,7 @@ class ProviderPage extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          fontSize: MediaQuery.of(context).size.width * 0.06, // Responsive font size
+          fontSize: MediaQuery.of(context).size.width * 0.06,
           fontWeight: FontWeight.bold,
           color: textColor,
         ),
@@ -45,16 +45,16 @@ class ProviderPage extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.2, // Responsive height
+              height: MediaQuery.of(context).size.height * 0.2,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05), // Responsive padding
+                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
                 child: Row(
                   children: [
                     Flexible(
                       child: CachedNetworkImage(
                         imageUrl: 'https://i.imghippo.com/files/HF5879OEk.png',
-                        height: MediaQuery.of(context).size.height * 0.06, // Responsive height
-                        fit: BoxFit.cover, // To ensure proper scaling
+                        height: MediaQuery.of(context).size.height * 0.06,
+                        fit: BoxFit.cover,
                         placeholder: (context, url) => CircularProgressIndicator(),
                         errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
@@ -73,12 +73,12 @@ class ProviderPage extends StatelessWidget {
                 ),
               ),
               child: Padding(
-                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05), // Responsive padding
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.6, // Responsive height for the GridView
+                      height: MediaQuery.of(context).size.height * 0.6,
                       child: GridView.count(
                         crossAxisCount: 4,
                         crossAxisSpacing: 12,
@@ -111,7 +111,6 @@ class ProviderPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 10),
-                    // Using Consumer to rebuild the TextField with updated text
                     Consumer<CalculatorProvider>(
                       builder: (context, provider, child) {
                         return TextField(

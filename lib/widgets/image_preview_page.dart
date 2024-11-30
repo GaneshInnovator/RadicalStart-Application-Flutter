@@ -18,10 +18,9 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
   @override
   void initState() {
     super.initState();
-    _image = widget.image; // Initialize the image with the passed value
+    _image = widget.image;
   }
 
-  // Show the image picker options (Gallery or Camera)
   Future<void> _showImagePickerOptions() async {
     showModalBottomSheet(
       context: context,
@@ -52,12 +51,11 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
     );
   }
 
-  // Pick a new image from gallery or camera
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
       setState(() {
-        _image = pickedFile; // Update the image when a new one is selected
+        _image = pickedFile;
       });
     }
   }
@@ -77,7 +75,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Display the selected image
+
             Image.file(
               File(_image.path),
               width: screenWidth * 0.8,
@@ -88,7 +86,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Edit button to pick a new image (circle style)
+
                 Container(
                   decoration: BoxDecoration(
                     color: iconcolor,
@@ -99,13 +97,11 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                     onPressed: _showImagePickerOptions,
                   ),
                 ),
-                SizedBox(width: 20), // Space between icons
-                // Confirm button to finalize the image selection
+                SizedBox(width: 20),
                 IconButton(
                   icon: Icon(Icons.check_circle, size: 55, color: iconcolor),
                   onPressed: () {
-                    // Return the updated image to the previous screen
-                    Navigator.pop(context, _image);  // Pass updated image back
+                    Navigator.pop(context, _image);
                   },
                 ),
               ],

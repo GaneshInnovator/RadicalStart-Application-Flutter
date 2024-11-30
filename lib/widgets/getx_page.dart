@@ -8,13 +8,12 @@ class GetxPage extends StatelessWidget {
 
   void _onButtonPress(String value) {
     if (RegExp(r'[0-9.]').hasMatch(value) || (value == '+' || value == '-' || value == '÷' || value == '×')) {
-      // Input numbers
       _calculator.inputNumber(value);
     } else if (value == 'C') {
-      // Clear the calculator
+
       _calculator.clear();
     } else if (value == '⌫') {
-      // Backspace functionality
+
       if (_calculator.displayValue.isNotEmpty) {
         _calculator.displayValue.value = _calculator.displayValue.value.substring(0, _calculator.displayValue.value.length - 1);
         if (_calculator.displayValue.value.isEmpty) {
@@ -22,10 +21,9 @@ class GetxPage extends StatelessWidget {
         }
       }
     } else if (value == '=') {
-      // Calculate and display the final result
       _calculator.calculateResult();
     } else {
-      // Handle operator input but do not show in TextField
+
       _calculator.inputOperator(value);
     }
   }
@@ -58,7 +56,6 @@ class GetxPage extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    // Responsive font size
     double fontSize = screenWidth < 350 ? 20 : 24;
 
     return Scaffold(
@@ -66,9 +63,8 @@ class GetxPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Company logo section
             Container(
-              height: screenHeight * 0.2, // Adjust based on screen height
+              height: screenHeight * 0.2,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
@@ -87,7 +83,6 @@ class GetxPage extends StatelessWidget {
               ),
             ),
 
-            // Main content with buttons
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
@@ -102,9 +97,8 @@ class GetxPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Button grid
                     SizedBox(
-                      height: screenHeight * 0.55, // Adjust height of the grid
+                      height: screenHeight * 0.55,
                       child: GridView.count(
                         crossAxisCount: 4,
                         crossAxisSpacing: 12,
@@ -137,7 +131,6 @@ class GetxPage extends StatelessWidget {
                       ),
                     ),
 
-                    // TextField for result display
                     SizedBox(height: 50),
                     Container(
                       child: Obx(() {
@@ -149,11 +142,11 @@ class GetxPage extends StatelessWidget {
                             fillColor: const Color(0xFFF1F1F1),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(color: Colors.grey.shade300),
+                              borderSide: BorderSide.none,
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(color: Colors.grey.shade300),
+                              borderSide: BorderSide.none,
                             ),
                             contentPadding: EdgeInsets.symmetric(
                               vertical: 20,
@@ -161,7 +154,7 @@ class GetxPage extends StatelessWidget {
                             ),
                           ),
                           controller: TextEditingController(
-                            text: _calculator.displayValue.value, // Reactive display
+                            text: _calculator.displayValue.value,
                           ),
                           readOnly: true,
                           style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.1),

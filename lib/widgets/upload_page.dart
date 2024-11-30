@@ -14,7 +14,6 @@ class _UploadPageState extends State<UploadPage> {
   XFile? _image;
   final ImagePicker _picker = ImagePicker();
 
-  // Show image picker options (Gallery or Camera)
   Future<void> _showImagePickerOptions() async {
     showModalBottomSheet(
       context: context,
@@ -45,7 +44,6 @@ class _UploadPageState extends State<UploadPage> {
     );
   }
 
-  // Handle gallery access
   Future<void> _handleGalleryAccess() async {
     if (await Permission.photos.request().isGranted) {
       _pickImage(ImageSource.gallery);
@@ -54,7 +52,6 @@ class _UploadPageState extends State<UploadPage> {
     }
   }
 
-  // Handle camera access
   Future<void> _handleCameraAccess() async {
     if (await Permission.camera.request().isGranted) {
       _pickImage(ImageSource.camera);
@@ -63,7 +60,6 @@ class _UploadPageState extends State<UploadPage> {
     }
   }
 
-  // Pick the image from the specified source (Gallery/Camera)
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
@@ -71,22 +67,19 @@ class _UploadPageState extends State<UploadPage> {
         _image = pickedFile;
       });
 
-      // Navigate to the ImagePreviewPage with the selected image
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => ImagePreviewPage(
-            image: pickedFile, // Pass the picked image to the next page
+            image: pickedFile,
           ),
         ),
       ).then((updatedImage) {
-        // Check if an updated image was returned after confirmation
         if (updatedImage != null) {
           setState(() {
-            _image = updatedImage; // Update the image with the confirmed one
+            _image = updatedImage;
           });
         } else {
-          // If no image was updated, clear the existing image
           setState(() {
             _image = null;
           });
@@ -105,10 +98,9 @@ class _UploadPageState extends State<UploadPage> {
         color: Color(0xFFF8F7FD), // Apply custom background color
         child: Column(
           children: [
-            // Top Section with Logo and Title
             Container(
               width: screenWidth,
-              height: screenHeight * 0.25, // Fixed height for top section
+              height: screenHeight * 0.25,
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -123,7 +115,6 @@ class _UploadPageState extends State<UploadPage> {
                 ],
               ),
             ),
-            // Bottom Section with Blue Box
             Expanded(
               child: Container(
                 width: screenWidth,
@@ -150,7 +141,7 @@ class _UploadPageState extends State<UploadPage> {
                           ),
                         ),
                       ),
-                      // Upload Container with Image and Edit/Confirm icons
+
                       Center(
                         child: GestureDetector(
                           onTap: _showImagePickerOptions,
@@ -205,7 +196,7 @@ class _UploadPageState extends State<UploadPage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: screenHeight * 0.05), // Add spacing
+                      SizedBox(height: screenHeight * 0.05),
                     ],
                   ),
                 ),
