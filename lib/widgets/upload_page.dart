@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
-import 'image_preview_page.dart';  // Import ImagePreviewPage
+import 'image_preview_page.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class UploadPage extends StatefulWidget {
   @override
@@ -24,7 +26,7 @@ class _UploadPageState extends State<UploadPage> {
                 leading: Icon(Icons.photo_library),
                 title: Text('Gallery'),
                 onTap: () {
-                  _pickImage(ImageSource.gallery);
+                  _handleGalleryAccess();
                   Navigator.of(context).pop();
                 },
               ),
@@ -32,7 +34,7 @@ class _UploadPageState extends State<UploadPage> {
                 leading: Icon(Icons.camera_alt),
                 title: Text('Camera'),
                 onTap: () {
-                  _pickImage(ImageSource.camera);
+                  _handleCameraAccess();
                   Navigator.of(context).pop();
                 },
               ),
@@ -41,6 +43,24 @@ class _UploadPageState extends State<UploadPage> {
         );
       },
     );
+  }
+
+  // Handle gallery access
+  Future<void> _handleGalleryAccess() async {
+    if (await Permission.photos.request().isGranted) {
+      _pickImage(ImageSource.gallery);
+    } else {
+      _pickImage(ImageSource.gallery);
+    }
+  }
+
+  // Handle camera access
+  Future<void> _handleCameraAccess() async {
+    if (await Permission.camera.request().isGranted) {
+      _pickImage(ImageSource.camera);
+    } else {
+      _pickImage(ImageSource.camera);
+    }
   }
 
   // Pick the image from the specified source (Gallery/Camera)
@@ -63,7 +83,7 @@ class _UploadPageState extends State<UploadPage> {
         // Check if an updated image was returned after confirmation
         if (updatedImage != null) {
           setState(() {
-            _image = updatedImage;  // Update the image with the confirmed one
+            _image = updatedImage; // Update the image with the confirmed one
           });
         } else {
           // If no image was updated, clear the existing image
@@ -93,11 +113,12 @@ class _UploadPageState extends State<UploadPage> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.network(
-                    'https://i.imghippo.com/files/HF5879OEk.png',
+                  CachedNetworkImage(
+                    imageUrl: 'https://i.imghippo.com/files/HF5879OEk.png',
                     height: screenHeight * 0.8,
                     width: screenWidth * 0.6,
                     fit: BoxFit.contain,
+                    placeholder: (context, url) => CircularProgressIndicator(),errorWidget:  (context, url, error) => Icon(Icons.error),
                   ),
                 ],
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'calculator_getx.dart'; // Import the logic file
+import 'calculator_getx.dart';
+import 'package:cached_network_image/cached_network_image.dart';// Import the logic file
 
 class GetxPage extends StatelessWidget {
   final CalculatorLogic _calculator = Get.put(CalculatorLogic());
@@ -67,10 +68,11 @@ class GetxPage extends StatelessWidget {
                 child: Row(
                   children: [
                     Flexible(
-                      child: Image.network(
-                        'https://i.imghippo.com/files/HF5879OEk.png',
+                      child: CachedNetworkImage(
+                        imageUrl: 'https://i.imghippo.com/files/HF5879OEk.png',
                         height: 50,
                         fit: BoxFit.contain,
+                        placeholder: (context, url) => CircularProgressIndicator(),errorWidget:  (context, url, error) => Icon(Icons.error),
                       ),
                     ),
                   ],
@@ -107,19 +109,19 @@ class GetxPage extends StatelessWidget {
                           _buildButton("C", Colors.black, Color(0xFFF1F1F1)),
                           _buildButton("%", Colors.black, Color(0xFFF1F1F1)),
                           _buildButton("⌫", Colors.black, Color(0xFFF1F1F1)),
-                          _buildButton("÷", Colors.black, Colors.orange),
+                          _buildButton("÷", Colors.white, Colors.orange),
                           _buildButton("7", Colors.black, Color(0xFFF0F5FE)),
                           _buildButton("8", Colors.black, Color(0xFFF0F5FE)),
                           _buildButton("9", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton("×", Colors.black, Colors.orange),
+                          _buildButton("×", Colors.white, Colors.orange),
                           _buildButton("4", Colors.black, Color(0xFFF0F5FE)),
                           _buildButton("5", Colors.black, Color(0xFFF0F5FE)),
                           _buildButton("6", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton("-", Colors.black, Colors.orange),
+                          _buildButton("-", Colors.white, Colors.orange),
                           _buildButton("1", Colors.black, Color(0xFFF0F5FE)),
                           _buildButton("2", Colors.black, Color(0xFFF0F5FE)),
                           _buildButton("3", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton("+", Colors.black, Colors.orange),
+                          _buildButton("+", Colors.white, Colors.orange),
                           _buildButton(".", Colors.black, Color(0xFFF0F5FE)),
                           _buildButton("0", Colors.black, Color(0xFFF0F5FE)),
                           _buildButton("00", Colors.black, Color(0xFFF0F5FE)),

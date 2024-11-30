@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'calculator_provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ProviderPage extends StatelessWidget {
   Widget _buildButton(BuildContext context, String text, Color textColor, Color buttonColor) {
@@ -50,10 +51,11 @@ class ProviderPage extends StatelessWidget {
                 child: Row(
                   children: [
                     Flexible(
-                      child: Image.network(
-                        'https://i.imghippo.com/files/HF5879OEk.png',
+                      child: CachedNetworkImage(
+                        imageUrl: 'https://i.imghippo.com/files/HF5879OEk.png',
                         height: 50,
                         fit: BoxFit.contain,
+                        placeholder: (context, url) => CircularProgressIndicator(),errorWidget:  (context, url, error) => Icon(Icons.error),
                       ),
                     ),
                   ],
@@ -87,19 +89,19 @@ class ProviderPage extends StatelessWidget {
                           _buildButton(context, "C", Colors.black, Color(0xFFF1F1F1)),
                           _buildButton(context, "%", Colors.black, Color(0xFFF1F1F1)),
                           _buildButton(context, "⌫", Colors.black, Color(0xFFF1F1F1)),
-                          _buildButton(context, "÷", Colors.black, Colors.orange),
+                          _buildButton(context, "÷", Colors.white, Colors.orange),
                           _buildButton(context, "7", Colors.black, Color(0xFFF0F5FE)),
                           _buildButton(context, "8", Colors.black, Color(0xFFF0F5FE)),
                           _buildButton(context, "9", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton(context, "×", Colors.black, Colors.orange),
+                          _buildButton(context, "×", Colors.white, Colors.orange),
                           _buildButton(context, "4", Colors.black, Color(0xFFF0F5FE)),
                           _buildButton(context, "5", Colors.black, Color(0xFFF0F5FE)),
                           _buildButton(context, "6", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton(context, "-", Colors.black, Colors.orange),
+                          _buildButton(context, "-", Colors.white, Colors.orange),
                           _buildButton(context, "1", Colors.black, Color(0xFFF0F5FE)),
                           _buildButton(context, "2", Colors.black, Color(0xFFF0F5FE)),
                           _buildButton(context, "3", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton(context, "+", Colors.black, Colors.orange),
+                          _buildButton(context, "+", Colors.white, Colors.orange),
                           _buildButton(context, ".", Colors.black, Color(0xFFF0F5FE)),
                           _buildButton(context, "0", Colors.black, Color(0xFFF0F5FE)),
                           _buildButton(context, "00", Colors.black, Color(0xFFF0F5FE)),

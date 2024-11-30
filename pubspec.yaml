@@ -39,6 +39,8 @@ dependencies:
   provider: any
   expressions: any
   get: any
+  permission_handler: ^10.4.0
+  cached_network_image: any
 
 dev_dependencies:
   flutter_test:
