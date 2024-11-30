@@ -4,6 +4,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import 'image_preview_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../utils/colors.dart';
+import '../utils/strings.dart';
 
 class UploadPage extends StatefulWidget {
   @override
@@ -95,7 +97,7 @@ class _UploadPageState extends State<UploadPage> {
 
     return Scaffold(
       body: Container(
-        color: Color(0xFFF8F7FD), // Apply custom background color
+        color: AppColors.secondaryColor, // Apply custom background color
         child: Column(
           children: [
             Container(
@@ -133,7 +135,7 @@ class _UploadPageState extends State<UploadPage> {
                           vertical: screenHeight * 0.02,
                         ),
                         child: Text(
-                          'Upload Image',
+                          AppStrings.uploadImageTitle,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: screenWidth * 0.06,

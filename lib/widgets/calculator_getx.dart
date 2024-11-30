@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 class CalculatorLogic extends GetxController {
   var displayValue = '0'.obs;
   String _expression = '';
+  var finalResult = '';
 
   void inputNumber(String value) {
     if (displayValue.value == '0') {
@@ -29,7 +30,8 @@ class CalculatorLogic extends GetxController {
   void calculateResult() {
     try {
       List<String> tokens = _tokenize(_expression);
-      displayValue.value = _evaluate(tokens).toString();
+      finalResult = _evaluate(tokens).toString();
+      displayValue.value = "$finalResult\n$_expression";
     } catch (e) {
       displayValue.value = 'Error';
     }

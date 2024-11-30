@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'calculator_getx.dart';
-import 'package:cached_network_image/cached_network_image.dart'; // Import the logic file
+import 'package:cached_network_image/cached_network_image.dart';
+import '../utils/colors.dart';
 
 class GetxPage extends StatelessWidget {
   final CalculatorLogic _calculator = Get.put(CalculatorLogic());
@@ -44,7 +45,6 @@ class GetxPage extends StatelessWidget {
         text,
         style: TextStyle(
           fontSize: fontSize,
-          fontWeight: FontWeight.bold,
           color: textColor,
         ),
       ),
@@ -57,9 +57,10 @@ class GetxPage extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
 
     double fontSize = screenWidth < 350 ? 20 : 24;
+    double textSize = MediaQuery.of(context).size.width * 0.08;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F7FD),
+      backgroundColor: AppColors.secondaryColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -107,26 +108,26 @@ class GetxPage extends StatelessWidget {
                         physics: NeverScrollableScrollPhysics(),
                         childAspectRatio: 1.0,
                         children: [
-                          _buildButton("C", Colors.black, Color(0xFFF1F1F1), fontSize),
-                          _buildButton("%", Colors.black, Color(0xFFF1F1F1), fontSize),
-                          _buildButton("⌫", Colors.black, Color(0xFFF1F1F1), fontSize),
-                          _buildButton("÷", Colors.white, Colors.orange, fontSize),
-                          _buildButton("7", Colors.black, Color(0xFFF0F5FE), fontSize),
-                          _buildButton("8", Colors.black, Color(0xFFF0F5FE), fontSize),
-                          _buildButton("9", Colors.black, Color(0xFFF0F5FE), fontSize),
-                          _buildButton("×", Colors.white, Colors.orange, fontSize),
-                          _buildButton("4", Colors.black, Color(0xFFF0F5FE), fontSize),
-                          _buildButton("5", Colors.black, Color(0xFFF0F5FE), fontSize),
-                          _buildButton("6", Colors.black, Color(0xFFF0F5FE), fontSize),
-                          _buildButton("-", Colors.white, Colors.orange, fontSize),
-                          _buildButton("1", Colors.black, Color(0xFFF0F5FE), fontSize),
-                          _buildButton("2", Colors.black, Color(0xFFF0F5FE), fontSize),
-                          _buildButton("3", Colors.black, Color(0xFFF0F5FE), fontSize),
-                          _buildButton("+", Colors.white, Colors.orange, fontSize),
-                          _buildButton(".", Colors.black, Color(0xFFF0F5FE), fontSize),
-                          _buildButton("0", Colors.black, Color(0xFFF0F5FE), fontSize),
-                          _buildButton("00", Colors.black, Color(0xFFF0F5FE), fontSize),
-                          _buildButton("=", Colors.black, Color(0xFF1B2FEE), fontSize),
+                          _buildButton("C", Colors.black, Color(0xFFF1F1F1), textSize),
+                          _buildButton("%", Colors.black, Color(0xFFF1F1F1), textSize),
+                          _buildButton("⌫", Colors.black, Color(0xFFF1F1F1), textSize),
+                          _buildButton("÷", Colors.white, Colors.orange, textSize),
+                          _buildButton("7", Colors.black, Color(0xFFF0F5FE), textSize),
+                          _buildButton("8", Colors.black, Color(0xFFF0F5FE), textSize),
+                          _buildButton("9", Colors.black, Color(0xFFF0F5FE), textSize),
+                          _buildButton("×", Colors.white, Colors.orange, textSize),
+                          _buildButton("4", Colors.black, Color(0xFFF0F5FE), textSize),
+                          _buildButton("5", Colors.black, Color(0xFFF0F5FE), textSize),
+                          _buildButton("6", Colors.black, Color(0xFFF0F5FE), textSize),
+                          _buildButton("-", Colors.white, Colors.orange, textSize),
+                          _buildButton("1", Colors.black, Color(0xFFF0F5FE), textSize),
+                          _buildButton("2", Colors.black, Color(0xFFF0F5FE), textSize),
+                          _buildButton("3", Colors.black, Color(0xFFF0F5FE), textSize),
+                          _buildButton("+", Colors.white, Colors.orange, textSize),
+                          _buildButton(".", Colors.black, Color(0xFFF0F5FE), textSize),
+                          _buildButton("0", Colors.black, Color(0xFFF0F5FE), textSize),
+                          _buildButton("00", Colors.black, Color(0xFFF0F5FE), textSize),
+                          _buildButton("=", Colors.white, Color(0xFF1B2FEE), textSize),
                         ],
                       ),
                     ),

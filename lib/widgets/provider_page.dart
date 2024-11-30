@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'calculator_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../utils/colors.dart';
 
 class ProviderPage extends StatelessWidget {
   Widget _buildButton(BuildContext context, String text, Color textColor, Color buttonColor) {
@@ -11,7 +12,7 @@ class ProviderPage extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: buttonColor,
         shape: CircleBorder(),
-        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05), // Responsive padding
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
         elevation: 0,
         side: BorderSide(color: Colors.grey.shade300, width: 1),
       ),
@@ -29,8 +30,7 @@ class ProviderPage extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          fontSize: MediaQuery.of(context).size.width * 0.06,
-          fontWeight: FontWeight.bold,
+          fontSize: MediaQuery.of(context).size.width * 0.08,
           color: textColor,
         ),
       ),
@@ -40,7 +40,7 @@ class ProviderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F7FD),
+      backgroundColor: AppColors.secondaryColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -106,7 +106,7 @@ class ProviderPage extends StatelessWidget {
                           _buildButton(context, ".", Colors.black, Color(0xFFF0F5FE)),
                           _buildButton(context, "0", Colors.black, Color(0xFFF0F5FE)),
                           _buildButton(context, "00", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton(context, "=", Colors.black, Color(0xFF1B2FEE)),
+                          _buildButton(context, "=", Colors.white, Color(0xFF1B2FEE)),
                         ],
                       ),
                     ),

@@ -32,7 +32,7 @@ class CalculatorProvider with ChangeNotifier {
     try {
       String expression = _displayValue.split('\n')[0];
       double result = _evaluateExpression(expression);
-      _displayValue = "$expression\n$result";
+      _displayValue = "$result\n$expression";
     } catch (e) {
       _displayValue = "Error";
     }
