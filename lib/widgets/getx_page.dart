@@ -138,7 +138,7 @@ class GetxPage extends StatelessWidget {
                     ),
 
                     // TextField for result display
-                    SizedBox(height: 10),
+                    SizedBox(height: 50),
                     Container(
                       child: Obx(() {
                         return TextField(

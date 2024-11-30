@@ -73,7 +73,7 @@ class ProviderPage extends StatelessWidget {
                 ),
               ),
               child: Padding(
-                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03), // Responsive padding
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05), // Responsive padding
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -122,6 +122,7 @@ class ProviderPage extends StatelessWidget {
                             fillColor: const Color(0xFFF1F1F1),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide.none,
                             ),
                           ),
                           readOnly: true,
