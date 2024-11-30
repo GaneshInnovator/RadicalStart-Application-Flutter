@@ -134,6 +134,8 @@ class GetxPage extends StatelessWidget {
                       child: Obx(() {
                         return TextField(
                           maxLines: 3,
+                          textAlign: TextAlign.right,
+                          textDirection: TextDirection.rtl,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: const Color(0xFFF1F1F1),
@@ -154,7 +156,7 @@ class GetxPage extends StatelessWidget {
                             text: _calculator.displayValue.value, // Reactive display
                           ),
                           readOnly: true,
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 25),
                         );
                       }),
                     ),

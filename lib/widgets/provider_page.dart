@@ -113,19 +113,21 @@ class ProviderPage extends StatelessWidget {
                       builder: (context, provider, child) {
                         return TextField(
                           maxLines: 3,
+                          textAlign: TextAlign.right,
+                          textDirection: TextDirection.rtl,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: const Color(0xFFF1F1F1),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(color: const Color(0xFFF1F1F1)),
+                              //borderSide: BorderSide(color: const Color(0xFFF1F1F1)),
                             ),
                           ),
                           readOnly: true,
                           controller: TextEditingController(
                             text: provider.displayValue,
                           ),
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 25),
                         );
                       },
                     ),
