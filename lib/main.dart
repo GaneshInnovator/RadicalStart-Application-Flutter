@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
-import 'widgets/provider_page.dart'; // Import the ProviderPage
-import 'widgets/upload_page.dart'; // Import the UploadPage
+import 'package:provider/provider.dart';
+import 'package:radicalapp1/widgets/getx_page.dart';
+import 'package:radicalapp1/widgets/upload_page.dart';
+import 'widgets/provider_page.dart';
+import 'widgets/calculator_provider.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CalculatorProvider()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,14 +27,12 @@ class MyApp extends StatelessWidget {
 }
 
 class HomeScreen extends StatelessWidget {
-  // Use ValueNotifier for state management
   final ValueNotifier<int> _selectedIndex = ValueNotifier<int>(0);
 
-  // List of pages
   final List<Widget> _pages = [
-    ProviderPage(), // Provider Page
-    Center(child: Text('GetX Page')), // Placeholder for GetX Page
-    UploadPage(), // Replace placeholder with UploadPage
+    ProviderPage(),
+    GetxPage(),
+    UploadPage(),
   ];
 
   @override
@@ -32,9 +40,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: ValueListenableBuilder<int>(
         valueListenable: _selectedIndex,
-        builder: (context, index, _) {
-          return _pages[index]; // Display the selected page
-        },
+        builder: (context, index, _) => _pages[index],
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
