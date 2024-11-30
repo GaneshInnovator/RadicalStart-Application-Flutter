@@ -128,31 +128,4 @@ class CalculatorProvider with ChangeNotifier {
     }
     return tokens;
   }
-
-  Widget getDisplayWidget() {
-    // Split the displayValue into expression and result
-    var parts = _displayValue.split('\n');
-    String expression = parts[0];
-    String result = parts.length > 1 ? parts[1] : '';
-
-    // Return a RichText widget with custom styles
-    return RichText(
-      text: TextSpan(
-        style: TextStyle(fontSize: 30, color: Colors.black), // Default text style
-        children: [
-          TextSpan(
-            text: expression,
-            style: TextStyle(fontSize: 30, color: Colors.blue), // Expression in blue
-          ),
-          if (result.isNotEmpty) ...[
-            TextSpan(text: '\n'), // Add a newline before result
-            TextSpan(
-              text: result,
-              style: TextStyle(fontSize: 70, color: Colors.black), // Result in larger black font
-            ),
-          ],
-        ],
-      ),
-    );
-  }
 }

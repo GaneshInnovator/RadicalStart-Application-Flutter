@@ -11,7 +11,7 @@ class ProviderPage extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: buttonColor,
         shape: CircleBorder(),
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05), // Responsive padding
         elevation: 0,
         side: BorderSide(color: Colors.grey.shade300, width: 1),
       ),
@@ -29,7 +29,7 @@ class ProviderPage extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          fontSize: 24,
+          fontSize: MediaQuery.of(context).size.width * 0.06, // Responsive font size
           fontWeight: FontWeight.bold,
           color: textColor,
         ),
@@ -45,17 +45,18 @@ class ProviderPage extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.2,
+              height: MediaQuery.of(context).size.height * 0.2, // Responsive height
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05), // Responsive padding
                 child: Row(
                   children: [
                     Flexible(
                       child: CachedNetworkImage(
                         imageUrl: 'https://i.imghippo.com/files/HF5879OEk.png',
-                        height: 50,
-                        fit: BoxFit.contain,
-                        placeholder: (context, url) => CircularProgressIndicator(),errorWidget:  (context, url, error) => Icon(Icons.error),
+                        height: MediaQuery.of(context).size.height * 0.06, // Responsive height
+                        fit: BoxFit.cover, // To ensure proper scaling
+                        placeholder: (context, url) => CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
                   ],
@@ -72,12 +73,12 @@ class ProviderPage extends StatelessWidget {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03), // Responsive padding
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     SizedBox(
-                      height: 500,
+                      height: MediaQuery.of(context).size.height * 0.6, // Responsive height for the GridView
                       child: GridView.count(
                         crossAxisCount: 4,
                         crossAxisSpacing: 12,
@@ -114,21 +115,22 @@ class ProviderPage extends StatelessWidget {
                     Consumer<CalculatorProvider>(
                       builder: (context, provider, child) {
                         return TextField(
-                          maxLines: 3,
+                          maxLines: 2,
                           textAlign: TextAlign.right,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: const Color(0xFFF1F1F1),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
-                              //borderSide: BorderSide(color: const Color(0xFFF1F1F1)),
                             ),
                           ),
                           readOnly: true,
                           controller: TextEditingController(
                             text: provider.displayValue,
                           ),
-                          style: TextStyle(fontSize: 25),
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.1, // Responsive font size
+                          ),
                         );
                       },
                     ),

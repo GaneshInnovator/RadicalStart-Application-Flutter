@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'calculator_getx.dart';
-import 'package:cached_network_image/cached_network_image.dart';// Import the logic file
+import 'package:cached_network_image/cached_network_image.dart'; // Import the logic file
 
 class GetxPage extends StatelessWidget {
   final CalculatorLogic _calculator = Get.put(CalculatorLogic());
@@ -30,7 +30,7 @@ class GetxPage extends StatelessWidget {
     }
   }
 
-  Widget _buildButton(String text, Color textColor, Color buttonColor) {
+  Widget _buildButton(String text, Color textColor, Color buttonColor, double fontSize) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: buttonColor,
@@ -45,7 +45,7 @@ class GetxPage extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          fontSize: 24,
+          fontSize: fontSize,
           fontWeight: FontWeight.bold,
           color: textColor,
         ),
@@ -55,6 +55,12 @@ class GetxPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    // Responsive font size
+    double fontSize = screenWidth < 350 ? 20 : 24;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8F7FD),
       body: SingleChildScrollView(
@@ -62,7 +68,7 @@ class GetxPage extends StatelessWidget {
           children: [
             // Company logo section
             Container(
-              height: MediaQuery.of(context).size.height * 0.2,
+              height: screenHeight * 0.2, // Adjust based on screen height
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
@@ -72,7 +78,8 @@ class GetxPage extends StatelessWidget {
                         imageUrl: 'https://i.imghippo.com/files/HF5879OEk.png',
                         height: 50,
                         fit: BoxFit.contain,
-                        placeholder: (context, url) => CircularProgressIndicator(),errorWidget:  (context, url, error) => Icon(Icons.error),
+                        placeholder: (context, url) => CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
                   ],
@@ -97,7 +104,7 @@ class GetxPage extends StatelessWidget {
                   children: [
                     // Button grid
                     SizedBox(
-                      height: 500,
+                      height: screenHeight * 0.55, // Adjust height of the grid
                       child: GridView.count(
                         crossAxisCount: 4,
                         crossAxisSpacing: 12,
@@ -106,26 +113,26 @@ class GetxPage extends StatelessWidget {
                         physics: NeverScrollableScrollPhysics(),
                         childAspectRatio: 1.0,
                         children: [
-                          _buildButton("C", Colors.black, Color(0xFFF1F1F1)),
-                          _buildButton("%", Colors.black, Color(0xFFF1F1F1)),
-                          _buildButton("⌫", Colors.black, Color(0xFFF1F1F1)),
-                          _buildButton("÷", Colors.white, Colors.orange),
-                          _buildButton("7", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton("8", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton("9", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton("×", Colors.white, Colors.orange),
-                          _buildButton("4", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton("5", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton("6", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton("-", Colors.white, Colors.orange),
-                          _buildButton("1", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton("2", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton("3", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton("+", Colors.white, Colors.orange),
-                          _buildButton(".", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton("0", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton("00", Colors.black, Color(0xFFF0F5FE)),
-                          _buildButton("=", Colors.black, Color(0xFF1B2FEE)),
+                          _buildButton("C", Colors.black, Color(0xFFF1F1F1), fontSize),
+                          _buildButton("%", Colors.black, Color(0xFFF1F1F1), fontSize),
+                          _buildButton("⌫", Colors.black, Color(0xFFF1F1F1), fontSize),
+                          _buildButton("÷", Colors.white, Colors.orange, fontSize),
+                          _buildButton("7", Colors.black, Color(0xFFF0F5FE), fontSize),
+                          _buildButton("8", Colors.black, Color(0xFFF0F5FE), fontSize),
+                          _buildButton("9", Colors.black, Color(0xFFF0F5FE), fontSize),
+                          _buildButton("×", Colors.white, Colors.orange, fontSize),
+                          _buildButton("4", Colors.black, Color(0xFFF0F5FE), fontSize),
+                          _buildButton("5", Colors.black, Color(0xFFF0F5FE), fontSize),
+                          _buildButton("6", Colors.black, Color(0xFFF0F5FE), fontSize),
+                          _buildButton("-", Colors.white, Colors.orange, fontSize),
+                          _buildButton("1", Colors.black, Color(0xFFF0F5FE), fontSize),
+                          _buildButton("2", Colors.black, Color(0xFFF0F5FE), fontSize),
+                          _buildButton("3", Colors.black, Color(0xFFF0F5FE), fontSize),
+                          _buildButton("+", Colors.white, Colors.orange, fontSize),
+                          _buildButton(".", Colors.black, Color(0xFFF0F5FE), fontSize),
+                          _buildButton("0", Colors.black, Color(0xFFF0F5FE), fontSize),
+                          _buildButton("00", Colors.black, Color(0xFFF0F5FE), fontSize),
+                          _buildButton("=", Colors.black, Color(0xFF1B2FEE), fontSize),
                         ],
                       ),
                     ),
@@ -135,7 +142,7 @@ class GetxPage extends StatelessWidget {
                     Container(
                       child: Obx(() {
                         return TextField(
-                          maxLines: 3,
+                          maxLines: 2,
                           textAlign: TextAlign.right,
                           decoration: InputDecoration(
                             filled: true,
@@ -157,7 +164,7 @@ class GetxPage extends StatelessWidget {
                             text: _calculator.displayValue.value, // Reactive display
                           ),
                           readOnly: true,
-                          style: TextStyle(fontSize: 25),
+                          style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.1),
                         );
                       }),
                     ),
