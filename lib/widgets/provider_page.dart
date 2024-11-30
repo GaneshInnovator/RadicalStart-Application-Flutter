@@ -28,6 +28,7 @@ class _ProviderPageState extends State<ProviderPage> {
         }
       } else if (value == '=') {
         // Calculate and display the final result
+        _calculator.inputOperator(value);
         _calculator.calculateResult();
       } else {
         // Handle operator input but do not show in TextField
