@@ -114,7 +114,6 @@ class ProviderPage extends StatelessWidget {
                         return TextField(
                           maxLines: 3,
                           textAlign: TextAlign.right,
-                          textDirection: TextDirection.rtl,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: const Color(0xFFF1F1F1),
