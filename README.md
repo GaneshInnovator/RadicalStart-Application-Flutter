@@ -1,6 +1,6 @@
-# radicalapp1
+# RadicalStart Application
 
-A new Flutter project.
+Provider Calculator, Getx Calculator and Upload Screen
 
 ## Getting Started
 
