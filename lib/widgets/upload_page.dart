@@ -16,8 +16,8 @@ class _UploadPageState extends State<UploadPage> {
   XFile? _image;
   final ImagePicker _picker = ImagePicker();
 
-  int _galleryDeniedCount = 0;
-  int _cameraDeniedCount = 0;
+  int _galleryDeniedCount = 0; // Track the number of denials for gallery
+  int _cameraDeniedCount = 0; // Track the number of denials for camera
 
   Future<void> _showImagePickerOptions() async {
     showModalBottomSheet(
@@ -53,6 +53,7 @@ class _UploadPageState extends State<UploadPage> {
     var status = await Permission.photos.status;
 
     if (status.isGranted) {
+      // Directly pick the image once permission is granted
       _pickImage(ImageSource.gallery);
     } else if (status.isDenied) {
       _galleryDeniedCount++;
@@ -72,6 +73,7 @@ class _UploadPageState extends State<UploadPage> {
     var status = await Permission.camera.status;
 
     if (status.isGranted) {
+      // Directly pick the image once permission is granted
       _pickImage(ImageSource.camera);
     } else if (status.isDenied) {
       _cameraDeniedCount++;
@@ -89,6 +91,7 @@ class _UploadPageState extends State<UploadPage> {
 
   Future<void> _requestGalleryPermission() async {
     if (await Permission.photos.request().isGranted) {
+      // Once permission is granted, pick the image immediately
       _pickImage(ImageSource.gallery);
     } else {
       _showPermissionError('Gallery access is required to upload an image.');
@@ -97,6 +100,7 @@ class _UploadPageState extends State<UploadPage> {
 
   Future<void> _requestCameraPermission() async {
     if (await Permission.camera.request().isGranted) {
+      // Once permission is granted, pick the image immediately
       _pickImage(ImageSource.camera);
     } else {
       _showPermissionError('Camera access is required to capture an image.');
@@ -167,7 +171,7 @@ class _UploadPageState extends State<UploadPage> {
             ),
             TextButton(
               onPressed: () {
-                openAppSettings();
+                openAppSettings(); // Opens the app settings page
                 Navigator.of(context).pop();
               },
               child: Text('Open Settings'),
@@ -185,7 +189,7 @@ class _UploadPageState extends State<UploadPage> {
 
     return Scaffold(
       body: Container(
-        color: AppColors.secondaryColor,
+        color: AppColors.secondaryColor, // Apply custom background color
         child: Column(
           children: [
             Container(
