@@ -16,6 +16,9 @@ class _UploadPageState extends State<UploadPage> {
   XFile? _image;
   final ImagePicker _picker = ImagePicker();
 
+  int _galleryDeniedCount = 0;
+  int _cameraDeniedCount = 0;
+
   Future<void> _showImagePickerOptions() async {
     showModalBottomSheet(
       context: context,
@@ -47,18 +50,56 @@ class _UploadPageState extends State<UploadPage> {
   }
 
   Future<void> _handleGalleryAccess() async {
-    if (await Permission.photos.request().isGranted) {
+    var status = await Permission.photos.status;
+
+    if (status.isGranted) {
       _pickImage(ImageSource.gallery);
-    } else {
-      _pickImage(ImageSource.gallery);
+    } else if (status.isDenied) {
+      _galleryDeniedCount++;
+      if (_galleryDeniedCount >= 3) {
+        _showSettingsOption(
+            'Gallery access is permanently denied. Please enable it from settings.');
+      } else {
+        _requestGalleryPermission();
+      }
+    } else if (status.isPermanentlyDenied) {
+      _showSettingsOption(
+          'Gallery access is permanently denied. Please enable it from settings.');
     }
   }
 
   Future<void> _handleCameraAccess() async {
+    var status = await Permission.camera.status;
+
+    if (status.isGranted) {
+      _pickImage(ImageSource.camera);
+    } else if (status.isDenied) {
+      _cameraDeniedCount++;
+      if (_cameraDeniedCount >= 3) {
+        _showSettingsOption(
+            'Camera access is permanently denied. Please enable it from settings.');
+      } else {
+        _requestCameraPermission();
+      }
+    } else if (status.isPermanentlyDenied) {
+      _showSettingsOption(
+          'Camera access is permanently denied. Please enable it from settings.');
+    }
+  }
+
+  Future<void> _requestGalleryPermission() async {
+    if (await Permission.photos.request().isGranted) {
+      _pickImage(ImageSource.gallery);
+    } else {
+      _showPermissionError('Gallery access is required to upload an image.');
+    }
+  }
+
+  Future<void> _requestCameraPermission() async {
     if (await Permission.camera.request().isGranted) {
       _pickImage(ImageSource.camera);
     } else {
-      _pickImage(ImageSource.camera);
+      _showPermissionError('Camera access is required to capture an image.');
     }
   }
 
@@ -90,6 +131,53 @@ class _UploadPageState extends State<UploadPage> {
     }
   }
 
+  void _showPermissionError(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Permission Denied'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showSettingsOption(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Permission Required'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                openAppSettings();
+                Navigator.of(context).pop();
+              },
+              child: Text('Open Settings'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -97,7 +185,7 @@ class _UploadPageState extends State<UploadPage> {
 
     return Scaffold(
       body: Container(
-        color: AppColors.secondaryColor, // Apply custom background color
+        color: AppColors.secondaryColor,
         child: Column(
           children: [
             Container(
@@ -112,7 +200,9 @@ class _UploadPageState extends State<UploadPage> {
                     height: screenHeight * 0.8,
                     width: screenWidth * 0.6,
                     fit: BoxFit.contain,
-                    placeholder: (context, url) => CircularProgressIndicator(),errorWidget:  (context, url, error) => Icon(Icons.error),
+                    placeholder: (context, url) =>
+                        CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ],
               ),
@@ -143,7 +233,6 @@ class _UploadPageState extends State<UploadPage> {
                           ),
                         ),
                       ),
-
                       Center(
                         child: GestureDetector(
                           onTap: _showImagePickerOptions,
