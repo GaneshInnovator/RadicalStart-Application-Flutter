@@ -12,4 +12,8 @@ class AppStrings {
   static const String permissionDenied = "Permission denied. Please allow access.";
 
   static const String imageUploadedSuccessfully = "Image uploaded successfully!";
+  static const String galleryPermanantlyDenied = "Gallery access is permanently denied. Please enable it from settings.";
+  static const String cameraPermanantlyDenied = "Camera access is permanently denied. Please enable it from settings.";
+  static const String galleryPermissionError = "Gallery access is required to upload an image.";
+  static const String cameraPermissionError = "Camera access is required to upload an image.";
 }

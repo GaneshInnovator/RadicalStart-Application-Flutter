@@ -16,8 +16,8 @@ class _UploadPageState extends State<UploadPage> {
   XFile? _image;
   final ImagePicker _picker = ImagePicker();
 
-  int _galleryDeniedCount = 0; // Track the number of denials for gallery
-  int _cameraDeniedCount = 0; // Track the number of denials for camera
+  int _galleryDeniedCount = 0;
+  int _cameraDeniedCount = 0;
 
   Future<void> _showImagePickerOptions() async {
     showModalBottomSheet(
@@ -53,19 +53,18 @@ class _UploadPageState extends State<UploadPage> {
     var status = await Permission.photos.status;
 
     if (status.isGranted) {
-      // Directly pick the image once permission is granted
       _pickImage(ImageSource.gallery);
     } else if (status.isDenied) {
       _galleryDeniedCount++;
       if (_galleryDeniedCount >= 3) {
         _showSettingsOption(
-            'Gallery access is permanently denied. Please enable it from settings.');
+            AppStrings.galleryPermanantlyDenied);
       } else {
         _requestGalleryPermission();
       }
     } else if (status.isPermanentlyDenied) {
       _showSettingsOption(
-          'Gallery access is permanently denied. Please enable it from settings.');
+          AppStrings.galleryPermanantlyDenied);
     }
   }
 
@@ -73,37 +72,34 @@ class _UploadPageState extends State<UploadPage> {
     var status = await Permission.camera.status;
 
     if (status.isGranted) {
-      // Directly pick the image once permission is granted
       _pickImage(ImageSource.camera);
     } else if (status.isDenied) {
       _cameraDeniedCount++;
       if (_cameraDeniedCount >= 3) {
         _showSettingsOption(
-            'Camera access is permanently denied. Please enable it from settings.');
+            AppStrings.cameraPermanantlyDenied);
       } else {
         _requestCameraPermission();
       }
     } else if (status.isPermanentlyDenied) {
       _showSettingsOption(
-          'Camera access is permanently denied. Please enable it from settings.');
+          AppStrings.cameraPermanantlyDenied);
     }
   }
 
   Future<void> _requestGalleryPermission() async {
     if (await Permission.photos.request().isGranted) {
-      // Once permission is granted, pick the image immediately
       _pickImage(ImageSource.gallery);
     } else {
-      _showPermissionError('Gallery access is required to upload an image.');
+      _showPermissionError(AppStrings.galleryPermissionError);
     }
   }
 
   Future<void> _requestCameraPermission() async {
     if (await Permission.camera.request().isGranted) {
-      // Once permission is granted, pick the image immediately
       _pickImage(ImageSource.camera);
     } else {
-      _showPermissionError('Camera access is required to capture an image.');
+      _showPermissionError(AppStrings.cameraPermissionError);
     }
   }
 
@@ -171,7 +167,7 @@ class _UploadPageState extends State<UploadPage> {
             ),
             TextButton(
               onPressed: () {
-                openAppSettings(); // Opens the app settings page
+                openAppSettings();
                 Navigator.of(context).pop();
               },
               child: Text('Open Settings'),
@@ -189,7 +185,7 @@ class _UploadPageState extends State<UploadPage> {
 
     return Scaffold(
       body: Container(
-        color: AppColors.secondaryColor, // Apply custom background color
+        color: AppColors.secondaryColor,
         child: Column(
           children: [
             Container(
