@@ -12,13 +12,13 @@ class ImagePreviewPage extends StatefulWidget {
 }
 
 class _ImagePreviewPageState extends State<ImagePreviewPage> {
-  late XFile _image;
+  late ValueNotifier<XFile> _imageNotifier;
   final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
     super.initState();
-    _image = widget.image;
+    _imageNotifier = ValueNotifier<XFile>(XFile(widget.image.path));
   }
 
   Future<void> _showImagePickerOptions() async {
@@ -54,9 +54,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
-      setState(() {
-        _image = pickedFile;
-      });
+      _imageNotifier.value = pickedFile;
     }
   }
 
@@ -75,33 +73,38 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
-            Image.file(
-              File(_image.path),
-              width: screenWidth * 0.8,
-              height: screenHeight * 0.6,
-              fit: BoxFit.cover,
+            ValueListenableBuilder<XFile>(
+              valueListenable: _imageNotifier,
+              builder: (context, image, child) {
+                return Image.file(
+                  File(image.path),
+                  width: screenWidth * 0.8,
+                  height: screenHeight * 0.6,
+                  fit: BoxFit.cover,
+                );
+              },
             ),
             SizedBox(height: screenHeight * 0.05),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
                 Container(
                   decoration: BoxDecoration(
                     color: iconcolor,
                     shape: BoxShape.circle,
                   ),
                   child: IconButton(
-                    icon: Icon(Icons.edit, size: 30, color: Colors.white),
+                    icon: Icon(Icons.edit, size: screenWidth * 0.08, color: Colors.white),
                     onPressed: _showImagePickerOptions,
                   ),
                 ),
-                SizedBox(width: 20),
+                SizedBox(width: screenWidth * 0.05),
+
                 IconButton(
-                  icon: Icon(Icons.check_circle, size: 55, color: iconcolor),
+                  icon: Icon(Icons.check_circle, size: screenWidth * 0.15, color: iconcolor),
                   onPressed: () {
-                    Navigator.pop(context, _image);
+                    Navigator.pop(context, _imageNotifier.value);
                   },
                 ),
               ],
