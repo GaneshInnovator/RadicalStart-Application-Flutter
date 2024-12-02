@@ -87,7 +87,7 @@ class _UploadPageState extends State<UploadPage> {
     if (await Permission.photos.request().isGranted) {
       _pickImage(ImageSource.gallery);
     } else {
-      _showPermissionError(AppStrings.galleryPermissionError);
+      _showSettingsOption(AppStrings.galleryPermissionError);
     }
   }
 
@@ -95,7 +95,7 @@ class _UploadPageState extends State<UploadPage> {
     if (await Permission.camera.request().isGranted) {
       _pickImage(ImageSource.camera);
     } else {
-      _showPermissionError(AppStrings.cameraPermissionError);
+      _showSettingsOption(AppStrings.cameraPermissionError);
     }
   }
 
@@ -119,26 +119,6 @@ class _UploadPageState extends State<UploadPage> {
         }
       });
     }
-  }
-
-  void _showPermissionError(String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Permission Denied'),
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   void _showSettingsOption(String message) {
