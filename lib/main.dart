@@ -37,6 +37,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return SafeArea(
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -48,16 +51,16 @@ class HomeScreen extends StatelessWidget {
             bottomNavigationBar: Container(
               decoration: BoxDecoration(
                 color: const Color(0xFFF8F7FD),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(screenWidth * 0.075),
+                  topRight: Radius.circular(screenWidth * 0.075),
                 ),
               ),
-              padding: const EdgeInsets.only(top: 18),
+              padding: EdgeInsets.only(top: screenHeight * 0.02),
               child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(screenWidth * 0.075),
+                  topRight: Radius.circular(screenWidth * 0.075),
                 ),
                 child: ValueListenableBuilder<int>(
                   valueListenable: _selectedIndex,
@@ -71,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                       selectedItemColor: const Color(0xFF8026DF),
                       unselectedItemColor: Colors.grey,
                       type: BottomNavigationBarType.fixed,
-                      iconSize: 30,
+                      iconSize: screenWidth * 0.075,
                       elevation: 0,
                       items: const [
                         BottomNavigationBarItem(
