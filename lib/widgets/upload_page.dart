@@ -13,7 +13,7 @@ class UploadPage extends StatefulWidget {
 }
 
 class _UploadPageState extends State<UploadPage> {
-  XFile? _image;
+  ValueNotifier<XFile?> _imageNotifier = ValueNotifier<XFile?>(null);
   final ImagePicker _picker = ImagePicker();
 
   int _galleryDeniedCount = 0;
@@ -57,14 +57,12 @@ class _UploadPageState extends State<UploadPage> {
     } else if (status.isDenied) {
       _galleryDeniedCount++;
       if (_galleryDeniedCount >= 3) {
-        _showSettingsOption(
-            AppStrings.galleryPermanantlyDenied);
+        _showSettingsOption(AppStrings.galleryPermanantlyDenied);
       } else {
         _requestGalleryPermission();
       }
     } else if (status.isPermanentlyDenied) {
-      _showSettingsOption(
-          AppStrings.galleryPermanantlyDenied);
+      _showSettingsOption(AppStrings.galleryPermanantlyDenied);
     }
   }
 
@@ -76,14 +74,12 @@ class _UploadPageState extends State<UploadPage> {
     } else if (status.isDenied) {
       _cameraDeniedCount++;
       if (_cameraDeniedCount >= 3) {
-        _showSettingsOption(
-            AppStrings.cameraPermanantlyDenied);
+        _showSettingsOption(AppStrings.cameraPermanantlyDenied);
       } else {
         _requestCameraPermission();
       }
     } else if (status.isPermanentlyDenied) {
-      _showSettingsOption(
-          AppStrings.cameraPermanantlyDenied);
+      _showSettingsOption(AppStrings.cameraPermanantlyDenied);
     }
   }
 
@@ -106,9 +102,7 @@ class _UploadPageState extends State<UploadPage> {
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
-      setState(() {
-        _image = pickedFile;
-      });
+      _imageNotifier.value = pickedFile;
 
       Navigator.push(
         context,
@@ -119,13 +113,9 @@ class _UploadPageState extends State<UploadPage> {
         ),
       ).then((updatedImage) {
         if (updatedImage != null) {
-          setState(() {
-            _image = updatedImage;
-          });
+          _imageNotifier.value = updatedImage;
         } else {
-          setState(() {
-            _image = null;
-          });
+          _imageNotifier.value = null;
         }
       });
     }
@@ -200,8 +190,7 @@ class _UploadPageState extends State<UploadPage> {
                     height: screenHeight * 0.8,
                     width: screenWidth * 0.6,
                     fit: BoxFit.contain,
-                    placeholder: (context, url) =>
-                        CircularProgressIndicator(),
+                    placeholder: (context, url) => CircularProgressIndicator(),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ],
@@ -221,9 +210,7 @@ class _UploadPageState extends State<UploadPage> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: screenHeight * 0.02,
-                        ),
+                        padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02),
                         child: Text(
                           AppStrings.uploadImageTitle,
                           style: TextStyle(
@@ -241,48 +228,50 @@ class _UploadPageState extends State<UploadPage> {
                             height: screenWidth * 0.9,
                             decoration: BoxDecoration(
                               color: const Color(0xFFF1F1F1),
-                              borderRadius:
-                              BorderRadius.circular(screenWidth * 0.08),
+                              borderRadius: BorderRadius.circular(screenWidth * 0.08),
                             ),
-                            child: _image == null
-                                ? Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Stack(
-                                  alignment: Alignment.center,
+                            child: ValueListenableBuilder<XFile?>(
+                              valueListenable: _imageNotifier,
+                              builder: (context, image, child) {
+                                return image == null
+                                    ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Container(
-                                      width: screenWidth * 0.2,
-                                      height: screenWidth * 0.2,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFF1B2FEE),
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.add,
-                                      size: screenWidth * 0.15,
-                                      color: Colors.white,
+                                    Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Container(
+                                          width: screenWidth * 0.2,
+                                          height: screenWidth * 0.2,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF1B2FEE),
+                                            shape: BoxShape.circle,
+                                          ),
+                                        ),
+                                        Icon(
+                                          Icons.add,
+                                          size: screenWidth * 0.15,
+                                          color: Colors.white,
+                                        ),
+                                      ],
                                     ),
                                   ],
-                                ),
-                              ],
-                            )
-                                : Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(
-                                    screenWidth * 0.04,
-                                  ),
-                                  child: Image.file(
-                                    File(_image?.path ?? ''),
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                  ),
-                                ),
-                              ],
+                                )
+                                    : Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(screenWidth * 0.04),
+                                      child: Image.file(
+                                        File(image.path),
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
                             ),
                           ),
                         ),
