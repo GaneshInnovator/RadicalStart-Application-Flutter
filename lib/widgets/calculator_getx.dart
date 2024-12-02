@@ -30,7 +30,14 @@ class CalculatorLogic extends GetxController {
   void calculateResult() {
     try {
       List<String> tokens = _tokenize(_expression);
-      finalResult = _evaluate(tokens).toString();
+      final result = _evaluate(tokens);
+
+      if (result == result.toInt()) {
+        finalResult = result.toInt().toString();
+      } else {
+        finalResult = result.toString();
+      }
+
       displayValue.value = "$finalResult\n$_expression";
     } catch (e) {
       displayValue.value = 'Error';
@@ -46,7 +53,7 @@ class CalculatorLogic extends GetxController {
 
       if (RegExp(r'[0-9.]').hasMatch(char)) {
         currentToken += char;
-      } else if (RegExp(r'[+\-*/]').hasMatch(char)) {
+      } else if (RegExp(r'[+\-*/÷×]').hasMatch(char)) {
         if (currentToken.isNotEmpty) {
           tokens.add(currentToken);
           currentToken = '';
@@ -63,43 +70,67 @@ class CalculatorLogic extends GetxController {
   }
 
   double _evaluate(List<String> tokens) {
+    tokens = _processMultiplicationDivision(tokens);
 
-    List<double> values = [];
-    List<String> operators = [];
+    tokens = _processAdditionSubtraction(tokens);
 
-    for (String token in tokens) {
-      if (RegExp(r'[0-9.]').hasMatch(token)) {
-        values.add(double.parse(token));
-      } else if (token == '+' || token == '-' || token == '*' || token == '/') {
-        operators.add(token);
-      }
-    }
+    return double.parse(tokens[0]);
+  }
 
-    while (operators.isNotEmpty) {
-      double num1 = values.removeAt(0);
-      double num2 = values.removeAt(0);
-      String operator = operators.removeAt(0);
+  List<String> _processMultiplicationDivision(List<String> tokens) {
+    int i = 0;
+    while (i < tokens.length) {
+      if (tokens[i] == '*' || tokens[i] == '×' || tokens[i] == '/' || tokens[i] == '÷') {
+        double left = double.parse(tokens[i - 1]);
+        double right = double.parse(tokens[i + 1]);
+        double result;
 
-      switch (operator) {
-        case '+':
-          values.insert(0, num1 + num2);
-          break;
-        case '-':
-          values.insert(0, num1 - num2);
-          break;
-        case '*':
-          values.insert(0, num1 * num2);
-          break;
-        case '/':
-          if (num2 != 0) {
-            values.insert(0, num1 / num2);
-          } else {
+        if (tokens[i] == '*' || tokens[i] == '×') {
+          result = left * right;
+        } else if (tokens[i] == '/' || tokens[i] == '÷') {
+          if (right == 0) {
             throw FormatException('Cannot divide by zero');
           }
-          break;
-      }
-    }
+          result = left / right;
+        } else {
+          throw FormatException('Invalid operator');
+        }
 
-    return values[0];
+        tokens[i - 1] = result.toString();
+        tokens.removeAt(i);
+        tokens.removeAt(i);
+
+        i--;
+      }
+      i++;
+    }
+    return tokens;
+  }
+
+  List<String> _processAdditionSubtraction(List<String> tokens) {
+    int i = 0;
+    while (i < tokens.length) {
+      if (tokens[i] == '+' || tokens[i] == '-') {
+        double left = double.parse(tokens[i - 1]);
+        double right = double.parse(tokens[i + 1]);
+        double result;
+
+        if (tokens[i] == '+') {
+          result = left + right;
+        } else if (tokens[i] == '-') {
+          result = left - right;
+        } else {
+          throw FormatException('Invalid operator');
+        }
+
+        tokens[i - 1] = result.toString();
+        tokens.removeAt(i);
+        tokens.removeAt(i);
+
+        i--;
+      }
+      i++;
+    }
+    return tokens;
   }
 }
