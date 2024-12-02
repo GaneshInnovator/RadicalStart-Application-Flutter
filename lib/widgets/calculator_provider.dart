@@ -68,14 +68,14 @@ class CalculatorProvider with ChangeNotifier {
   }
 
   List<String> _tokenizeExpression(String expression) {
-    final regex = RegExp(r'(\d+(\.\d*)?|\+|\-|\×|\÷|\*|\/|👦|👦)');
+    final regex = RegExp(r'(\d+(\.\d*)?|\+|\-|\×|\÷|\*|\/|%)');
     return regex.allMatches(expression).map((match) => match.group(0)!).toList();
   }
 
   List<String> _processMultiplicationDivision(List<String> tokens) {
     int i = 0;
     while (i < tokens.length) {
-      if (tokens[i] == '*' || tokens[i] == '/' || tokens[i] == '×' || tokens[i] == '÷') {
+      if (tokens[i] == '*' || tokens[i] == '/' || tokens[i] == '×' || tokens[i] == '÷' || tokens[i] == '%') {
         double left = double.parse(tokens[i - 1]);
         double right = double.parse(tokens[i + 1]);
         double result;
@@ -87,6 +87,11 @@ class CalculatorProvider with ChangeNotifier {
             throw FormatException("Division by zero");
           }
           result = left / right;
+        } else if (tokens[i] == '%') {
+          if (right == 0) {
+            throw FormatException("Division by zero in modulus");
+          }
+          result = left % right;
         } else {
           throw FormatException("Invalid operator");
         }
