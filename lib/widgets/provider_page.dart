@@ -5,7 +5,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../utils/colors.dart';
 
 class ProviderPage extends StatelessWidget {
-  Widget _buildButton(BuildContext context, String text, Color textColor, Color buttonColor) {
+  Widget _buildButton(
+      BuildContext context, String text, Color textColor, Color buttonColor) {
     final provider = Provider.of<CalculatorProvider>(context, listen: false);
 
     return ElevatedButton(
@@ -39,21 +40,24 @@ class ProviderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: AppColors.secondaryColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.2,
+              height: screenHeight * 0.2,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
                 child: Row(
                   children: [
                     Flexible(
                       child: CachedNetworkImage(
                         imageUrl: 'https://i.imghippo.com/files/HF5879OEk.png',
-                        height: MediaQuery.of(context).size.height * 0.06,
+                        height: screenHeight * 0.06,
                         fit: BoxFit.cover,
                         placeholder: (context, url) => CircularProgressIndicator(),
                         errorWidget: (context, url, error) => Icon(Icons.error),
@@ -68,21 +72,21 @@ class ProviderPage extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40),
-                  topRight: Radius.circular(40),
+                  topLeft: Radius.circular(screenWidth * 0.1),
+                  topRight: Radius.circular(screenWidth * 0.1),
                 ),
               ),
               child: Padding(
-                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
+                padding: EdgeInsets.all(screenWidth * 0.05),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.6,
+                      height: screenHeight * 0.6,
                       child: GridView.count(
                         crossAxisCount: 4,
-                        crossAxisSpacing: 12,
-                        mainAxisSpacing: 12,
+                        crossAxisSpacing: screenWidth * 0.03,
+                        mainAxisSpacing: screenHeight * 0.02,
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         childAspectRatio: 1.0,
@@ -110,7 +114,7 @@ class ProviderPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: screenHeight * 0.02),
                     Consumer<CalculatorProvider>(
                       builder: (context, provider, child) {
                         return TextField(
@@ -120,7 +124,7 @@ class ProviderPage extends StatelessWidget {
                             filled: true,
                             fillColor: const Color(0xFFF1F1F1),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
+                              borderRadius: BorderRadius.circular(screenWidth * 0.04),
                               borderSide: BorderSide.none,
                             ),
                           ),
@@ -129,7 +133,7 @@ class ProviderPage extends StatelessWidget {
                             text: provider.displayValue,
                           ),
                           style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.1, // Responsive font size
+                            fontSize: screenWidth * 0.1,
                           ),
                         );
                       },
