@@ -31,34 +31,40 @@ class CalculatorProvider with ChangeNotifier {
   void calculateResult() {
     try {
       String expression = _displayValue.split('\n')[0];
-      double result = _evaluateExpression(expression);
-      _displayValue = "$result\n$expression";
+      dynamic result = _evaluateExpression(expression);
+
+      if (result is double && result == result.toInt()) {
+        _displayValue = "${result.toInt()}\n$expression";
+      } else {
+        _displayValue = "$result\n$expression";
+      }
     } catch (e) {
       _displayValue = "Error";
     }
     notifyListeners();
   }
 
-  double _evaluateExpression(String expression) {
-
+  dynamic _evaluateExpression(String expression) {
     expression = expression.replaceAll("×", "*").replaceAll("÷", "/");
 
     try {
-
       List<String> tokens = _tokenizeExpression(expression);
-
       return _parseExpression(tokens);
     } catch (e) {
       throw FormatException("Invalid expression");
     }
   }
 
-  double _parseExpression(List<String> tokens) {
+  dynamic _parseExpression(List<String> tokens) {
     tokens = _processMultiplicationDivision(tokens);
-
     tokens = _processAdditionSubtraction(tokens);
 
-    return double.parse(tokens[0]);
+    double result = double.parse(tokens[0]);
+
+    if (result == result.toInt()) {
+      return result.toInt();
+    }
+    return result;
   }
 
   List<String> _tokenizeExpression(String expression) {
