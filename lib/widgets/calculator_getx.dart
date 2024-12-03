@@ -15,7 +15,6 @@ class CalculatorLogic extends GetxController {
   }
 
   void inputOperator(String value) {
-    // Replace the last operator if one already exists
     if (_expression.isNotEmpty && RegExp(r'[+\-*/÷×%]$').hasMatch(_expression)) {
       _expression = _expression.substring(0, _expression.length - 1);
     }
@@ -34,7 +33,7 @@ class CalculatorLogic extends GetxController {
       final result = _evaluate(tokens);
 
       if (result == result.toInt()) {
-        finalResult = result.toInt().toString(); // Show integer if result is whole
+        finalResult = result.toInt().toString();
       } else {
         finalResult = result.toString();
       }
@@ -71,13 +70,10 @@ class CalculatorLogic extends GetxController {
   }
 
   double _evaluate(List<String> tokens) {
-    // Process multiplication, division, and remainder first
     tokens = _processMultiplicationDivision(tokens);
 
-    // Then process addition and subtraction
     tokens = _processAdditionSubtraction(tokens);
 
-    // The remaining token is the result
     return double.parse(tokens[0]);
   }
 
@@ -105,13 +101,10 @@ class CalculatorLogic extends GetxController {
           throw FormatException('Invalid operator');
         }
 
-        // Replace the left operand with the result
         tokens[i - 1] = result.toString();
-        // Remove the operator and the right operand
         tokens.removeAt(i);
         tokens.removeAt(i);
 
-        // Move back one step to recheck the current operator
         i--;
       }
       i++;
@@ -135,13 +128,10 @@ class CalculatorLogic extends GetxController {
           throw FormatException('Invalid operator');
         }
 
-        // Replace the left operand with the result
         tokens[i - 1] = result.toString();
-        // Remove the operator and the right operand
         tokens.removeAt(i);
         tokens.removeAt(i);
 
-        // Move back one step to recheck the current operator
         i--;
       }
       i++;
